@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🏯 日本の歴史・文化クイズ道場</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700;900&family=Zen+Kaku+Gothic+New:wght@400;700;900&family=Shippori+Mincho:wght@600;800&family=Noto+Sans+JP:wght@400;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<script src="https://pecpec37-gift.github.io/portal/stamp.js"></script>
+<style>
+:root{
+  --bg:#fdf5e8;--bg2:#fffdf8;--surface:#ffffff;--surface2:#fff6e3;
+  --border:rgba(140,100,40,0.16);
+  --red:#f43f5e;--red2:#f5576c;--red3:#fb7185;
+  --gold:#f59e0b;--gold2:#f59e0b;--gold3:#d97706;
+  --crimson:#fb7185;
+  --green:#16a34a;--blue:#2563eb;--teal:#0d9488;
+  --text:#332f29;--text2:#6b655c;--text3:#a39b8d;
+  --radius:14px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;text-size-adjust:100%;overflow-x:hidden;background:var(--bg);}
+body{font-family:'Noto Sans JP',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;width:100%;max-width:100%;position:relative;}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse at 12% 8%,rgba(13,148,136,0.07) 0%,transparent 52%),radial-gradient(ellipse at 88% 92%,rgba(244,63,94,0.07) 0%,transparent 52%);pointer-events:none;z-index:0;}
+.screen{display:none;position:relative;z-index:1;}.screen.active{display:block;}
+#screen-top{min-height:100vh;}
+.top-hero{background:linear-gradient(160deg,#fff7e8 0%,#ffe7c2 48%,#ffd8e2 100%);padding:52px 24px 44px;text-align:center;border-bottom:3px solid rgba(245,158,11,0.25);position:relative;overflow:hidden;}
+.top-hero::before{content:'城';font-family:'Shippori Mincho',serif;position:absolute;right:-8px;bottom:-54px;font-size:230px;font-weight:800;opacity:0.07;pointer-events:none;color:var(--red2);}
+.top-hero::after{content:'和';font-family:'Shippori Mincho',serif;position:absolute;left:2px;top:0px;font-size:130px;font-weight:800;opacity:0.09;pointer-events:none;color:var(--gold);}
+.top-eyebrow{font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:0.22em;color:var(--red2);text-transform:uppercase;margin-bottom:12px;}
+.top-title{font-family:'Zen Maru Gothic',sans-serif;font-weight:900;font-size:clamp(25px,6.2vw,48px);line-height:1.2;color:var(--text);margin-bottom:8px;letter-spacing:0.02em;}
+.top-title span{color:var(--red2);}
+.top-sub{font-size:13px;color:var(--text2);letter-spacing:0.04em;margin-bottom:26px;}
+.top-rule{display:inline-block;background:rgba(255,255,255,0.7);border:2px solid rgba(245,158,11,0.3);border-radius:14px;padding:16px 22px;text-align:left;font-size:12.5px;line-height:2;color:var(--text2);box-shadow:0 6px 20px rgba(180,120,40,0.10);}
+.top-rule strong{color:var(--red2);}
+.genres-wrap{max-width:920px;margin:0 auto;padding:32px 20px 20px;}
+.genres-label{font-family:'Zen Maru Gothic',sans-serif;font-weight:700;font-size:13px;letter-spacing:0.04em;color:var(--text2);margin-bottom:14px;display:flex;align-items:center;gap:10px;}
+.genres-label::after{content:'';flex:1;height:2px;background:var(--border);border-radius:2px;}
+.genres-hint{font-size:13px;font-weight:700;color:var(--red2);background:rgba(245,87,108,0.08);border:2px solid rgba(245,87,108,0.22);border-radius:12px;padding:10px 14px;margin-bottom:20px;text-align:center;letter-spacing:0.02em;}
+.genres-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px;margin-bottom:24px;}
+.genre-card{background:var(--surface);border:2px solid var(--border);border-radius:18px;padding:22px 18px;cursor:pointer;transition:transform 0.12s,box-shadow 0.12s,border-color 0.12s;position:relative;overflow:hidden;box-shadow:0 4px 14px rgba(160,120,50,0.08);}
+.genre-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(245,158,11,0.07),transparent);opacity:0;transition:opacity 0.15s;}
+.genre-card:hover{transform:translateY(-4px);box-shadow:0 14px 30px rgba(160,120,50,0.20);border-color:rgba(245,158,11,0.55);}
+.genre-card:hover::before{opacity:1;}
+.genre-accent{position:absolute;top:0;left:0;right:0;height:6px;border-radius:18px 18px 0 0;}
+.genre-icon{font-size:34px;line-height:1;margin-bottom:10px;display:block;}
+.genre-name{font-family:'Zen Maru Gothic',sans-serif;font-weight:900;font-size:18px;margin-bottom:5px;color:var(--text);}
+.genre-desc{font-size:11.5px;color:var(--text2);margin-bottom:6px;line-height:1.6;}
+.genre-count{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--text3);letter-spacing:0.08em;}
+.genre-start{position:absolute;top:14px;right:14px;font-family:'Zen Maru Gothic',sans-serif;font-weight:700;font-size:10px;letter-spacing:0.06em;color:var(--red2);opacity:0;transition:opacity 0.15s;}
+.genre-card:hover .genre-start{opacity:1;}
+.ranking-btn-wrap{text-align:center;padding:8px 0 36px;}
+.ranking-btn{font-family:'Zen Maru Gothic',sans-serif;font-weight:700;font-size:13px;letter-spacing:0.04em;padding:12px 26px;background:#fff;border:2px solid var(--border);color:var(--text2);border-radius:30px;cursor:pointer;transition:all 0.15s;box-shadow:0 3px 10px rgba(160,120,50,0.08);}
+.ranking-btn:hover{border-color:var(--gold);color:var(--gold3);transform:translateY(-2px);}
+#screen-intro{min-height:100vh;display:none;flex-direction:column;align-items:center;justify-content:center;padding:40px 24px;}
+#screen-intro.active{display:flex;}
+.intro-box{background:var(--surface);border:2px solid var(--border);border-radius:22px;padding:34px 28px;width:100%;max-width:430px;text-align:center;box-shadow:0 12px 34px rgba(160,120,50,0.14);}
+.intro-icon{font-size:56px;margin-bottom:10px;display:block;}
+.intro-name{font-family:'Zen Maru Gothic',sans-serif;font-weight:900;font-size:25px;margin-bottom:4px;color:var(--red2);}
+.intro-desc{font-size:12.5px;color:var(--text2);margin-bottom:20px;line-height:1.7;}
+.intro-rule{font-size:12.5px;line-height:1.9;color:var(--text2);text-align:left;background:var(--surface2);border-radius:12px;padding:14px 16px;margin-bottom:20px;}
+.intro-rule strong{color:var(--red2);}
+.name-label{font-family:'Zen Maru Gothic',sans-serif;font-weight:700;font-size:11px;letter-spacing:0.04em;color:var(--text3);margin-bottom:6px;text-align:left;}
+.name-input{width:100%;background:#fff;border:2px solid var(--border);border-radius:12px;padding:12px 14px;color:var(--text);font-family:'Noto Sans JP',sans-serif;font-size:15px;margin-bottom:16px;outline:none;transition:border-color 0.15s;}
+.name-input:focus{border-color:var(--red2);}
+.name-input::placeholder{color:var(--text3);}
+.start-btn{width:100%;padding:16px;background:linear-gradient(90deg,#f5576c,#f59e0b);color:#fff;font-family:'Zen Maru Gothic',sans-serif;font-weight:900;font-size:17px;border:none;border-radius:14px;cursor:pointer;transition:filter 0.15s,transform 0.1s;letter-spacing:0.04em;box-shadow:0 6px 18px rgba(245,87,108,0.32);}
+.start-btn:hover{filter:brightness(1.05);}
+.start-btn:active{transform:scale(0.98);}
+.back-link{margin-top:14px;font-family:'Zen Maru Gothic',sans-serif;font-weight:700;font-size:12px;color:var(--text3);cursor:pointer;transition:color 0.15s;background:none;border:none;}
+.back-link:hover{color:var(--text);}
+#screen-quiz{min-height:100vh;}
+.quiz-header{background:var(--bg2);border-bottom:2px solid var(--border);padding:13px 20px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;position:sticky;top:0;z-index:10;}
+.quiz-progress{flex:1;height:8px;background:rgba(245,158,11,0.18);border-radius:6px;overflow:hidden;min-width:30px;}
+.quiz-progress-fill{height:100%;background:linear-gradient(90deg,var(--red2),var(--gold));border-radius:6px;transition:width 0.3s;}
+.quiz-qnum{font-family:'Zen Maru Gothic',sans-serif;font-weight:700;font-size:12px;color:var(--text2);white-space:nowrap;letter-spacing:0.04em;}
+.quiz-score{font-family:'Zen Maru Gothic',sans-serif;font-weight:900;font-size:15px;color:var(--gold3);white-space:nowrap;}
+.quiz-timer-wrap{display:flex;align-items:baseline;gap:3px;}
+.quiz-timer{font-family:'Zen Maru Gothic',sans-serif;font-weight:900;font-size:24px;color:var(--teal);min-width:40px;text-align:right;transition:color 0.3s;}
+.quiz-timer.danger{color:#ef4444;animation:pulse 0.5s infinite alternate;}
+@keyframes pulse{from{opacity:1;}to{opacity:0.4;}}
+.quiz-timer-label{font-family:'Zen Maru Gothic',sans-serif;font-weight:700;font-size:11px;color:var(--text3);}
+.quiz-body{max-width:640px;margin:0 auto;padding:28px 20px 48px;width:100%;}
+#quiz-choices{max-width:100%;}
+.quiz-type-badge{font-family:'Zen Maru Gothic',sans-serif;font-weight:700;font-size:11px;letter-spacing:0.06em;padding:4px 12px;border-radius:20px;display:inline-block;margin-bottom:14px;}
+.quiz-type-badge.type-4{background:rgba(13,148,136,0.14);color:var(--teal);}
+.quiz-type-badge.type-ox{background:rgba(245,158,11,0.16);color:var(--gold3);}
+.quiz-q{font-family:'Zen Maru Gothic',sans-serif;font-weight:700;font-size:clamp(17px,4.4vw,22px);line-height:1.75;margin-bottom:22px;color:var(--text);max-width:100%;overflow-wrap:break-word;word-break:break-word;line-break:strict;}
+.quiz-q .yoji{font-family:'Shippori Mincho',serif;font-weight:800;color:var(--red2);letter-spacing:0.14em;}
+.choices{display:flex;flex-direction:column;gap:12px;}
+.choice-btn{background:var(--surface);border:2px solid var(--border);border-radius:14px;padding:17px 18px;text-align:left;font-family:'Noto Sans JP',sans-serif;font-weight:700;font-size:16px;color:var(--text);cursor:pointer;transition:all 0.12s;display:flex;align-items:center;gap:12px;width:100%;min-width:0;overflow-wrap:break-word;word-break:break-word;box-shadow:0 3px 10px rgba(160,120,50,0.07);}
+.choice-btn:hover:not(:disabled){background:var(--surface2);border-color:var(--gold);transform:translateX(4px);}
+.choice-btn:disabled{cursor:default;}
+.choice-btn.correct{background:rgba(22,163,74,0.12);border-color:var(--green);color:#15803d;}
+.choice-btn.wrong{background:rgba(244,63,94,0.10);border-color:var(--red);color:#be123c;}
+.choice-label{font-family:'Zen Maru Gothic',sans-serif;font-weight:900;font-size:14px;color:#fff;background:var(--gold);min-width:26px;height:26px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;}
+.choice-btn.correct .choice-label{background:var(--green);}
+.choice-btn.wrong .choice-label{background:var(--red);}
+.ox-choices{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.ox-btn{background:var(--surface);border:2px solid var(--border);border-radius:16px;padding:30px 16px;font-size:42px;cursor:pointer;transition:all 0.12s;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:6px;min-width:0;box-shadow:0 4px 12px rgba(160,120,50,0.08);}
+.ox-btn span{font-family:'Zen Maru Gothic',sans-serif;font-weight:700;font-size:12px;color:var(--text3);letter-spacing:0.06em;}
+.ox-btn:hover:not(:disabled){transform:scale(1.03);border-color:var(--gold);}
+.ox-btn:disabled{cursor:default;}
+.ox-btn.correct{background:rgba(22,163,74,0.12);border-color:var(--green);}
+.ox-btn.wrong{background:rgba(244,63,94,0.10);border-color:var(--red);}
+.next-btn{margin-top:14px;width:100%;padding:14px;background:var(--red2);color:#fff;font-family:'Zen Maru Gothic',sans-serif;font-weight:900;font-size:15px;border:none;border-radius:14px;cursor:pointer;transition:filter 0.15s;display:none;}
+.next-btn.show{display:block;}
+.next-btn:hover{filter:brightness(1.05);}
+#screen-result{min-height:100vh;display:none;flex-direction:column;align-items:center;padding:40px 20px 70px;}
+#screen-result.active{display:flex;}
+.result-box{width:100%;max-width:520px;}
+.result-genre{font-family:'Zen Maru Gothic',sans-serif;font-weight:700;font-size:13px;letter-spacing:0.04em;color:var(--text2);margin-bottom:10px;text-align:center;}
+.result-score-wrap{background:var(--surface);border:2px solid var(--border);border-radius:22px;padding:30px;text-align:center;margin-bottom:20px;box-shadow:0 10px 30px rgba(160,120,50,0.12);}
+.result-medal{font-size:54px;margin-bottom:8px;display:block;}
+.result-score{font-family:'Zen Maru Gothic',sans-serif;font-weight:900;font-size:66px;line-height:1;color:var(--gold3);}
+.result-score-label{font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:0.16em;color:var(--text3);margin-bottom:16px;text-transform:uppercase;}
+.result-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:16px;}
+.result-stat{background:var(--surface2);border-radius:14px;padding:14px 8px;text-align:center;}
+.result-stat-val{font-family:'Zen Maru Gothic',sans-serif;font-weight:900;font-size:26px;color:var(--gold3);}
+.result-stat-val.green{color:var(--green);}
+.result-stat-val.gold{color:var(--gold3);}
+.result-stat-label{font-family:'Zen Maru Gothic',sans-serif;font-weight:700;font-size:10px;letter-spacing:0.04em;color:var(--text3);margin-top:3px;}
+.result-actions{display:flex;gap:12px;margin-bottom:24px;}
+.result-btn{flex:1;padding:14px;font-family:'Zen Maru Gothic',sans-serif;font-weight:900;font-size:14px;border-radius:14px;cursor:pointer;transition:all 0.15s;}
+.result-btn-primary{background:linear-gradient(90deg,#f5576c,#f59e0b);color:#fff;border:none;box-shadow:0 6px 16px rgba(245,87,108,0.3);}
+.result-btn-primary:hover{filter:brightness(1.05);}
+.result-btn-secondary{background:#fff;color:var(--text2);border:2px solid var(--border);}
+.result-btn-secondary:hover{border-color:var(--gold);color:var(--gold3);}
+.wrong-section{width:100%;max-width:520px;}
+.wrong-label{font-family:'Zen Maru Gothic',sans-serif;font-weight:900;font-size:13px;letter-spacing:0.04em;color:var(--text);margin-bottom:14px;padding-bottom:10px;border-bottom:2px solid var(--border);}
+.wrong-item{background:var(--surface);border:2px solid var(--border);border-radius:16px;padding:18px;margin-bottom:12px;box-shadow:0 4px 12px rgba(160,120,50,0.07);}
+.wrong-item-num{font-family:'Zen Maru Gothic',sans-serif;font-weight:900;font-size:11px;letter-spacing:0.04em;color:#fff;background:var(--red2);display:inline-block;padding:3px 10px;border-radius:20px;margin-bottom:8px;}
+.wrong-item-q{font-size:15px;line-height:1.7;color:var(--text);margin-bottom:10px;font-weight:700;}
+.wrong-item-q .yoji{font-family:'Shippori Mincho',serif;color:var(--red2);letter-spacing:0.1em;}
+.wrong-item-ans{display:flex;align-items:flex-start;gap:8px;font-size:14px;}
+.wrong-item-ans-label{font-family:'Zen Maru Gothic',sans-serif;font-weight:700;font-size:10px;color:#fff;background:var(--green);padding:3px 9px;border-radius:20px;white-space:nowrap;margin-top:1px;}
+.wrong-item-ans-text{color:#15803d;line-height:1.5;font-weight:700;}
+.wrong-item-mean{margin-top:10px;font-size:13px;color:var(--text2);line-height:1.7;border-left:3px solid var(--gold);padding-left:12px;}
+.portal-back{display:block;text-align:center;margin-top:28px;font-family:'Zen Maru Gothic',sans-serif;font-weight:700;font-size:13px;letter-spacing:0.02em;color:var(--text2);text-decoration:none;padding:13px 20px;border:2px solid var(--border);border-radius:30px;transition:all 0.15s;background:#fff;}
+.portal-back:hover{border-color:var(--gold);color:var(--gold3);}
+#screen-ranking{min-height:100vh;padding:40px 20px 70px;}
+.ranking-wrap{max-width:600px;margin:0 auto;}
+.ranking-top{display:flex;align-items:center;gap:12px;margin-bottom:24px;}
+.ranking-title{font-family:'Zen Maru Gothic',sans-serif;font-weight:900;font-size:23px;color:var(--gold3);flex:1;}
+.ranking-back{font-family:'Zen Maru Gothic',sans-serif;font-weight:700;font-size:12px;color:var(--text2);background:#fff;border:2px solid var(--border);border-radius:30px;padding:8px 16px;cursor:pointer;transition:all 0.15s;}
+.ranking-back:hover{border-color:var(--gold);color:var(--gold3);}
+.ranking-tabs{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;margin-bottom:20px;padding-bottom:4px;}
+.ranking-tabs::-webkit-scrollbar{display:none;}
+.ranking-tab{flex-shrink:0;font-family:'Zen Maru Gothic',sans-serif;font-weight:700;font-size:12px;letter-spacing:0.02em;padding:9px 16px;background:#fff;border:2px solid var(--border);border-radius:30px;color:var(--text2);cursor:pointer;transition:all 0.15s;white-space:nowrap;}
+.ranking-tab.active{color:#fff;background:var(--red2);border-color:var(--red2);}
+.ranking-list{display:flex;flex-direction:column;gap:8px;}
+.ranking-empty{font-family:'Zen Maru Gothic',sans-serif;font-weight:700;font-size:13px;color:var(--text3);text-align:center;padding:32px;}
+.ranking-row{display:flex;align-items:center;gap:12px;background:var(--surface);border:2px solid var(--border);border-radius:14px;padding:13px 16px;box-shadow:0 3px 10px rgba(160,120,50,0.06);}
+.ranking-row.top1{border-color:rgba(245,158,11,0.6);background:rgba(245,158,11,0.07);}
+.ranking-row.top2{border-color:rgba(150,150,150,0.4);}
+.ranking-row.top3{border-color:rgba(180,100,30,0.4);}
+.ranking-pos{font-family:'Zen Maru Gothic',sans-serif;font-weight:900;font-size:20px;min-width:28px;color:var(--text3);}
+.ranking-pos.gold{color:#f59e0b;}.ranking-pos.silver{color:#9ca3af;}.ranking-pos.bronze{color:#c2741b;}
+.ranking-name{flex:1;font-size:15px;font-weight:700;color:var(--text);}
+.ranking-score{font-family:'Zen Maru Gothic',sans-serif;font-weight:900;font-size:21px;color:var(--gold3);}
+.ranking-date{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--text3);margin-left:6px;}
+.ranking-del{font-size:12px;color:var(--text3);background:none;border:none;cursor:pointer;padding:6px 10px;margin-top:12px;font-family:'Zen Maru Gothic',sans-serif;font-weight:700;letter-spacing:0.02em;transition:color 0.15s;}
+.ranking-del:hover{color:var(--red);}
+#toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);background:#fff;color:var(--gold3);font-family:'Zen Maru Gothic',sans-serif;font-weight:700;font-size:13px;padding:12px 22px;border-radius:30px;border:2px solid var(--gold);z-index:9999;opacity:0;transition:all 0.3s;pointer-events:none;white-space:nowrap;box-shadow:0 8px 24px rgba(160,120,50,0.2);}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+.portal-fixed-btn{position:fixed;bottom:20px;left:20px;z-index:9999;display:inline-flex;align-items:center;gap:8px;padding:11px 18px;background:rgba(255,255,255,0.95);color:var(--gold3);font-family:'Zen Maru Gothic',sans-serif;font-weight:700;font-size:12px;letter-spacing:0.02em;border-radius:30px;border:2px solid rgba(245,158,11,0.4);text-decoration:none;backdrop-filter:blur(6px);box-shadow:0 6px 18px rgba(160,120,50,0.18);transition:all 0.15s;white-space:nowrap;}
+.portal-fixed-btn:hover{border-color:var(--gold);transform:translateY(-2px);}
+@media(max-width:480px){.genres-grid{grid-template-columns:1fr 1fr;}.result-actions{flex-direction:column;}.portal-fixed-btn{bottom:14px;left:14px;padding:9px 14px;font-size:11px;}.quiz-header{padding:12px 14px;gap:10px;}.quiz-body{padding:24px 16px 48px;}.quiz-timer{font-size:22px;}.choice-btn{font-size:15px;padding:16px;}}
+@media(max-width:360px){.genres-grid{grid-template-columns:1fr;}.ox-btn{padding:24px 10px;font-size:36px;}.quiz-header{gap:8px;}}
+/* ===== 早押し: タイプライター & バザー ===== */
+.cursor-blink{display:inline-block;width:3px;height:1.05em;background:var(--red2);vertical-align:text-bottom;margin-left:2px;animation:caret 0.6s ease-in-out infinite;}
+@keyframes caret{0%,100%{opacity:1;}50%{opacity:0;}}
+.quiz-q{min-height:96px;}
+.buzzer-btn{margin-top:8px;width:100%;padding:20px;border:none;border-radius:16px;font-family:'Zen Maru Gothic',sans-serif;font-weight:900;font-size:19px;letter-spacing:0.04em;color:#fff;cursor:pointer;background:linear-gradient(90deg,#f5576c,#fb7185);box-shadow:0 8px 24px rgba(245,87,108,0.4);animation:buzz 1s ease-in-out infinite;transition:transform 0.1s;}
+.buzzer-btn:active{transform:scale(0.96);animation:none;}
+@keyframes buzz{0%,100%{transform:scale(1);}50%{transform:scale(1.04);}}
+/* ===== 早押し: 正誤オーバーレイ ===== */
+.result-overlay{display:none;position:fixed;inset:0;z-index:9990;justify-content:center;align-items:center;padding:20px;}
+.result-overlay.show{display:flex;}
+.result-overlay::before{content:'';position:absolute;inset:0;background:rgba(70,50,20,0.42);backdrop-filter:blur(4px);}
+.result-box-ov{position:relative;z-index:1;background:var(--surface);border:3px solid var(--border);border-radius:22px;padding:30px 26px;max-width:430px;width:100%;text-align:center;animation:popIn 0.35s cubic-bezier(0.175,0.885,0.32,1.275);max-height:88vh;overflow-y:auto;box-shadow:0 20px 50px rgba(0,0,0,0.25);}
+.result-box-ov.correct{border-color:var(--green);box-shadow:0 0 40px rgba(22,163,74,0.25);}
+.result-box-ov.incorrect{border-color:var(--red);box-shadow:0 0 40px rgba(244,63,94,0.22);}
+@keyframes popIn{from{transform:scale(0.6);opacity:0;}50%{transform:scale(1.08);}to{transform:scale(1);opacity:1;}}
+.result-emoji{font-size:54px;margin-bottom:6px;}
+.result-label-ov{font-family:'Zen Maru Gothic',sans-serif;font-weight:900;font-size:26px;margin-bottom:14px;}
+.result-box-ov.correct .result-label-ov{color:var(--green);}
+.result-box-ov.incorrect .result-label-ov{color:var(--red);}
+.result-ans-show{background:var(--surface2);border-radius:14px;padding:15px;margin-bottom:12px;text-align:left;}
+.result-ans-q{font-size:13.5px;color:var(--text2);line-height:1.7;margin-bottom:8px;font-weight:700;}
+.result-ans-q .yoji{font-family:'Shippori Mincho',serif;font-weight:800;color:var(--red2);letter-spacing:0.1em;}
+.result-ans-a{font-size:19px;font-weight:900;color:var(--gold3);font-family:'Zen Maru Gothic',sans-serif;}
+.result-feedback{font-size:14px;color:var(--text2);line-height:1.7;margin-bottom:10px;font-weight:700;}
+.result-feedback .hl{font-weight:900;}
+.result-feedback .hl.plus{color:var(--green);}
+.result-feedback .hl.minus{color:var(--red);}
+.result-mean{font-size:13px;color:var(--text2);line-height:1.7;background:rgba(245,158,11,0.10);border:2px solid rgba(245,158,11,0.25);border-radius:12px;padding:11px 13px;margin-bottom:20px;text-align:left;}
+.result-mean:empty{display:none;}
+#ov-next-btn{margin-top:0;}
+#toast.ok{border-color:var(--green);color:#15803d;}
+#toast.ng{border-color:var(--red);color:#be123c;}
+</style>
+</head>
+<body>
+<div id="screen-top" class="screen active">
+  <div class="top-hero">
+    <div class="top-eyebrow">Tommy's Quiz Dojo</div>
+    <h1 class="top-title">日本の歴史・文化<span>クイズ道場</span></h1>
+    <p class="top-sub">人物・できごと・お城・伝統文化を、早押しクイズで楽しく学ぼう！（小学4年生〜大人）</p>
+    <div class="top-rule">📋 制限時間：<strong>120秒</strong> ／ 各ジャンル<strong>10問</strong>ランダム出題<br>✅ 正解 → <strong>+10点</strong> ＋ 時間 +5秒<br>❌ まちがい → 減点なし ＋ 時間 −5秒<br>🏆 のこり時間がそのままボーナス点に！<br>⚡ 問題が出たら「回答する！」を押して答えをえらぼう<br>👆 ジャンルカードを<strong>クリックで即スタート</strong>（名前は入れなくてOK）<br>【4択】と【○×】がまざって出ます</div>
+  </div>
+  <div class="genres-wrap">
+    <div class="genres-label">🏯 ジャンルをえらんでクリック → 即スタート！</div>
+    <div class="genres-hint">👆 カードをクリックするとすぐ始まります（次の画面は「スタート」を押すだけの最後の確認）</div>
+    <div class="genres-grid" id="genres-grid"></div>
+    <div class="ranking-btn-wrap"><button class="ranking-btn" onclick="showRanking()">🏆 スコアランキングを見る</button></div>
+  </div>
+</div>
+<div id="screen-intro" class="screen">
+  <div class="intro-box">
+    <span class="intro-icon" id="intro-icon"></span>
+    <div class="intro-name" id="intro-name"></div>
+    <div class="intro-desc" id="intro-desc"></div>
+    <div class="intro-rule">制限時間：<strong>120秒</strong> ／ 10問ランダム（4択＋○×）<br>✅ 正解 → <strong>+10点</strong> ＋ 時間 +5秒<br>❌ まちがい → 減点なし ＋ 時間 −5秒<br>🏆 のこり時間がそのままボーナス点に！<br>⚡ 問題が出たら「回答する！」で答えが出ます</div>
+    <div class="name-label">なまえ（ランキングに出ます）</div>
+    <input class="name-input" id="name-input" type="text" maxlength="20" placeholder="プレーヤー名（入れなくてもOK）">
+    <button class="start-btn" onclick="startGame()">スタート ▶</button>
+    <button class="back-link" onclick="showScreen('screen-top')">← もどる</button>
+  </div>
+</div>
+<div id="screen-quiz" class="screen">
+  <div class="quiz-header">
+    <div class="quiz-qnum" id="quiz-qnum">Q1 / 10</div>
+    <div class="quiz-progress"><div class="quiz-progress-fill" id="quiz-progress-fill" style="width:0%"></div></div>
+    <div class="quiz-score" id="quiz-score">0 点</div>
+    <div class="quiz-timer-wrap"><div class="quiz-timer" id="quiz-timer">120</div><div class="quiz-timer-label">秒</div></div>
+  </div>
+  <div class="quiz-body">
+    <div class="quiz-type-badge" id="quiz-type-badge">4択</div>
+    <div class="quiz-q" id="quiz-q"><span class="cursor-blink"></span></div>
+    <div id="quiz-choices" style="display:none;"></div>
+    <button class="buzzer-btn" id="buzzer-btn" onclick="onBuzzer()">⚡ 回答する！</button>
+  </div>
+</div>
+<div id="screen-result" class="screen">
+  <div class="result-box">
+    <div class="result-genre" id="result-genre"></div>
+    <div class="result-score-wrap">
+      <span class="result-medal" id="result-medal">🏆</span>
+      <div class="result-score" id="result-score">0</div>
+      <div class="result-score-label">TOTAL SCORE</div>
+      <div class="result-stats">
+        <div class="result-stat"><div class="result-stat-val green" id="result-correct">0</div><div class="result-stat-label">正解数</div></div>
+        <div class="result-stat"><div class="result-stat-val" id="result-wrong">0</div><div class="result-stat-label">まちがい</div></div>
+        <div class="result-stat"><div class="result-stat-val gold" id="result-bonus">+0</div><div class="result-stat-label">時間ボーナス</div></div>
+      </div>
+    </div>
+    <div class="result-actions">
+      <button class="result-btn result-btn-primary" onclick="retryGame()">もう一度ちょうせん</button>
+      <button class="result-btn result-btn-secondary" onclick="showScreen('screen-top')">← トップへ</button>
+    </div>
+  </div>
+  <div class="wrong-section" id="wrong-section"></div>
+  <a class="portal-back" href="https://pecpec37-gift.github.io/portal/">← とみやんのゲームランド（ポータルサイトに戻る）</a>
+</div>
+<div id="screen-ranking" class="screen">
+  <div class="ranking-wrap">
+    <div class="ranking-top"><div class="ranking-title">🏆 スコアランキング</div><button class="ranking-back" onclick="showScreen('screen-top')">← トップへ</button></div>
+    <div class="ranking-tabs" id="ranking-tabs"></div>
+    <div class="ranking-list" id="ranking-list"></div>
+    <div style="text-align:center;margin-top:16px;"><button class="ranking-del" onclick="deleteRanking()">🗑️ このジャンルの記録を消す</button></div>
+  </div>
+</div>
+<div class="result-overlay" id="result-overlay">
+  <div class="result-box-ov" id="result-box-ov">
+    <div class="result-emoji" id="result-emoji">✅</div>
+    <div class="result-label-ov" id="result-label-ov">正解！</div>
+    <div class="result-ans-show">
+      <div class="result-ans-q" id="result-ov-q"></div>
+      <div class="result-ans-a" id="result-ov-a"></div>
+    </div>
+    <div class="result-feedback" id="result-ov-fb"></div>
+    <div class="result-mean" id="result-ov-mean"></div>
+    <button class="start-btn" id="ov-next-btn" onclick="nextQuestion()">次の問題へ →</button>
+  </div>
+</div>
+
+<div id="toast"></div>
+<a class="portal-fixed-btn" href="https://pecpec37-gift.github.io/portal/">← ポータルサイトに戻る</a>
+<script>
+const GENRES=[
+  {id:'rekijin',icon:'📜',name:'歴史人物',     color:'#f43f5e',desc:'信長・龍馬・紫式部…時代を動かした人々'},
+  {id:'jidai',  icon:'⏳',name:'時代・できごと',color:'#f59e0b',desc:'縄文〜令和／大化の改新・関ヶ原・明治維新'},
+  {id:'shiro',  icon:'🏯',name:'城・世界遺産', color:'#0d9488',desc:'姫路城・法隆寺・厳島神社・富士山'},
+  {id:'bunka',  icon:'🎎',name:'伝統文化・行事',color:'#8b5cf6',desc:'お正月・節分・茶道・相撲・和食'},
+  {id:'shinwa', icon:'🦊',name:'神話・昔話',   color:'#2563eb',desc:'桃太郎・かぐや姫・天照大神・十二支'},
+  {id:'meisho', icon:'🗾',name:'名所・地理',   color:'#ec4899',desc:'富士山・琵琶湖・全国の祭り・郷土の名物'},
+];
+// q:問題文 / c:4択（先頭が正解、表示時にシャッフル） / a:正解index（4択は0） / m:解説
+const DB={
+  rekijin:[
+  {type:'4', q:'本能寺の変で倒れた、天下統一を目前にしていた戦国大名は？', c:['織田信長','豊臣秀吉','徳川家康','武田信玄'], a:0, m:'1582年、家臣の明智光秀にそむかれた。'},
+  {type:'4', q:'農民の出身から「太閤」と呼ばれる天下人になった武将は？', c:['豊臣秀吉','織田信長','徳川家康','石田三成'], a:0, m:'太閤検地や刀狩を行った。'},
+  {type:'4', q:'江戸幕府を開いた初代将軍は？', c:['徳川家康','徳川家光','豊臣秀吉','源頼朝'], a:0, m:'1603年に征夷大将軍となった。'},
+  {type:'4', q:'『源氏物語』を書いた平安時代の女性作家は？', c:['紫式部','清少納言','小野小町','卑弥呼'], a:0, m:'世界最古級の長編物語といわれる。'},
+  {type:'4', q:'随筆『枕草子』を書いた平安時代の女性は？', c:['清少納言','紫式部','与謝野晶子','樋口一葉'], a:0, m:'「春はあけぼの」で始まる。'},
+  {type:'4', q:'鎌倉幕府を開いた初代将軍は？', c:['源頼朝','足利尊氏','徳川家康','平清盛'], a:0, m:'武士による政治の始まり。'},
+  {type:'4', q:'薩摩藩出身で明治維新に活躍し、西南戦争で敗れた人物は？', c:['西郷隆盛','大久保利通','坂本龍馬','木戸孝允'], a:0, m:'「西郷どん」とも呼ばれる。'},
+  {type:'4', q:'薩長同盟を成立させたが、暗殺された土佐藩出身の人物は？', c:['坂本龍馬','西郷隆盛','勝海舟','高杉晋作'], a:0, m:'海援隊をつくった。'},
+  {type:'4', q:'『学問のすゝめ』を書き、慶應義塾をつくった人物は？', c:['福沢諭吉','新渡戸稲造','夏目漱石','野口英世'], a:0, m:'「天は人の上に人を造らず」で有名。'},
+  {type:'4', q:'飛鳥時代に十七条の憲法を定めたとされる人物は？', c:['聖徳太子','中大兄皇子','蘇我馬子','聖武天皇'], a:0, m:'冠位十二階も定めた。'},
+  {type:'4', q:'奈良の東大寺の大仏を造らせた天皇は？', c:['聖武天皇','天武天皇','桓武天皇','推古天皇'], a:0, m:'仏教の力で国を守ろうとした。'},
+  {type:'4', q:'元寇（モンゴルの襲来）のときの鎌倉幕府の執権は？', c:['北条時宗','北条政子','源頼朝','足利義満'], a:0, m:'文永の役・弘安の役を退けた。'},
+  {type:'4', q:'金閣（鹿苑寺）を建てた室町幕府の3代将軍は？', c:['足利義満','足利義政','足利尊氏','徳川家光'], a:0, m:'京都・北山に建てた。'},
+  {type:'4', q:'全国を測量し、正確な日本地図を作った江戸時代の人物は？', c:['伊能忠敬','杉田玄白','本居宣長','間宮林蔵'], a:0, m:'55歳から測量を始めた。'},
+  {type:'4', q:'『おくのほそ道』を書いた、俳句で有名な江戸時代の人物は？', c:['松尾芭蕉','与謝蕪村','小林一茶','正岡子規'], a:0, m:'旅をしながら俳句をよんだ。'},
+  {type:'4', q:'「東海道五十三次」を描いた浮世絵師は？', c:['歌川広重','葛飾北斎','喜多川歌麿','東洲斎写楽'], a:0, m:'風景画で人気を集めた。'},
+  {type:'4', q:'「富嶽三十六景」を描いた浮世絵師は？', c:['葛飾北斎','歌川広重','菱川師宣','尾形光琳'], a:0, m:'「神奈川沖浪裏」が有名。'},
+  {type:'4', q:'初代内閣総理大臣は？', c:['伊藤博文','大隈重信','板垣退助','西郷隆盛'], a:0, m:'大日本帝国憲法づくりにも関わった。'},
+  {type:'4', q:'武士で初めて太政大臣になり、平氏の全盛を築いた人物は？', c:['平清盛','源義経','北条時宗','足利尊氏'], a:0, m:'日宋貿易を行った。'},
+  {type:'4', q:'邪馬台国を治めたとされる女王は？', c:['卑弥呼','推古天皇','紫式部','北条政子'], a:0, m:'中国の「魏志倭人伝」に登場する。'},
+  {type:'4', q:'大政奉還を行った、江戸幕府最後の（15代）将軍は？', c:['徳川慶喜','徳川家茂','徳川吉宗','徳川綱吉'], a:0, m:'政権を朝廷に返した。'},
+  {type:'4', q:'室町幕府を開いた人物は？', c:['足利尊氏','足利義満','新田義貞','後醍醐天皇'], a:0, m:'京都に幕府を開いた。'},
+  {type:'4', q:'川中島の戦いで武田信玄と戦った「越後の龍」は？', c:['上杉謙信','今川義元','毛利元就','伊達政宗'], a:0, m:'信玄と何度も戦ったといわれる。'},
+  {type:'4', q:'関ヶ原の戦いで西軍を率いた武将は？', c:['石田三成','徳川家康','真田幸村','小早川秀秋'], a:0, m:'東軍の徳川家康に敗れた。'},
+  {type:'4', q:'日本人で初めてノーベル賞を受賞した物理学者は？', c:['湯川秀樹','野口英世','北里柴三郎','朝永振一郎'], a:0, m:'1949年に受賞した。'},
+  {type:'ox', q:'紫式部は『源氏物語』の作者である。', a:true, m:'その通りです。'},
+  {type:'ox', q:'織田信長は江戸幕府を開いた将軍である。', a:false, m:'江戸幕府を開いたのは徳川家康です。'},
+  {type:'ox', q:'坂本龍馬は江戸幕府の最後の将軍だった。', a:false, m:'最後の将軍は徳川慶喜です。'},
+  ],
+  jidai:[
+  {type:'4', q:'縄文時代の人々のおもな暮らしは？', c:['狩りや採集','自動車の生産','米の輸出','会社づとめ'], a:0, m:'土器を使い、狩り・採集・漁をした。'},
+  {type:'4', q:'米づくり（稲作）が大陸から伝わって広まったのは何時代？', c:['弥生時代','縄文時代','平安時代','江戸時代'], a:0, m:'むらやくにができていった。'},
+  {type:'4', q:'645年、中大兄皇子らが蘇我氏をたおして始めた政治改革は？', c:['大化の改新','大政奉還','明治維新','応仁の乱'], a:0, m:'天皇中心の国づくりを目指した。'},
+  {type:'4', q:'794年に都を京都へ移したことを何という？', c:['平安京遷都','平城京遷都','大化の改新','鎖国'], a:0, m:'桓武天皇が移した。「鳴くよウグイス平安京」。'},
+  {type:'4', q:'710年に奈良につくられた都は？', c:['平城京','平安京','藤原京','長岡京'], a:0, m:'「なんと立派な平城京」。'},
+  {type:'4', q:'鉄砲が日本に初めて伝わった場所は？', c:['種子島','長崎','堺','京都'], a:0, m:'1543年、ポルトガル人が伝えた。'},
+  {type:'4', q:'キリスト教を日本に初めて伝えた宣教師は？', c:['フランシスコ・ザビエル','ペリー','マルコ・ポーロ','コロンブス'], a:0, m:'1549年、鹿児島に来た。'},
+  {type:'4', q:'1600年、天下分け目といわれた戦いは？', c:['関ヶ原の戦い','長篠の戦い','桶狭間の戦い','壇ノ浦の戦い'], a:0, m:'徳川家康の東軍が勝った。'},
+  {type:'4', q:'江戸時代、外国との行き来を制限した政策を何という？', c:['鎖国','開国','廃藩置県','文明開化'], a:0, m:'長崎の出島でオランダ・中国と貿易した。'},
+  {type:'4', q:'大名が領地と江戸を行き来した江戸時代の制度は？', c:['参勤交代','刀狩','楽市楽座','廃藩置県'], a:0, m:'3代将軍家光が制度を整えた。'},
+  {type:'4', q:'1853年、黒船で来航して開国をせまったアメリカの人物は？', c:['ペリー','ザビエル','リンカーン','ハリス'], a:0, m:'浦賀に来航した。'},
+  {type:'4', q:'明治時代、西洋の文化が広まったことを何という？', c:['文明開化','鎖国','太平の世','下剋上'], a:0, m:'ガス灯・洋服・鉄道などが広まった。'},
+  {type:'4', q:'1467年から京都で起こり、戦国時代のきっかけになった戦乱は？', c:['応仁の乱','承久の乱','西南戦争','壬申の乱'], a:0, m:'11年も続いた。'},
+  {type:'4', q:'豊臣秀吉が、農民から武器を取り上げた政策は？', c:['刀狩','参勤交代','楽市楽座','検地'], a:0, m:'一揆を防ぐためなどに行った。'},
+  {type:'4', q:'鎌倉幕府をたおし、後醍醐天皇が始めた政治は？', c:['建武の新政','大化の改新','享保の改革','大政奉還'], a:0, m:'長くは続かなかった。'},
+  {type:'4', q:'徳川家康が征夷大将軍となり、江戸幕府を開いた年は？', c:['1603年','1192年','1853年','1945年'], a:0, m:'江戸時代の始まり。'},
+  {type:'4', q:'1575年、織田・徳川軍が鉄砲を活用して武田軍を破った戦いは？', c:['長篠の戦い','関ヶ原の戦い','桶狭間の戦い','川中島の戦い'], a:0, m:'大量の鉄砲を使った戦い。'},
+  {type:'4', q:'江戸時代に「享保の改革」を行った将軍は？', c:['徳川吉宗','徳川家光','徳川綱吉','徳川慶喜'], a:0, m:'米将軍とも呼ばれた。'},
+  {type:'4', q:'弥生時代、米をたくわえるために使われた高い床の倉庫は？', c:['高床倉庫','たて穴住居','天守閣','書院造'], a:0, m:'湿気やネズミを防いだ。'},
+  {type:'4', q:'894年に遣唐使の廃止を提案したとされる平安時代の人物は？', c:['菅原道真','聖徳太子','行基','鑑真'], a:0, m:'のちに学問の神様としてまつられた。'},
+  {type:'4', q:'1868年、明治天皇が新しい政治の方針として示したものは？', c:['五箇条の御誓文','十七条の憲法','武家諸法度','御成敗式目'], a:0, m:'明治維新の基本方針。'},
+  {type:'ox', q:'縄文時代には、すでに米づくりが日本中に広まっていた。', a:false, m:'米づくりが広まったのは弥生時代です。'},
+  {type:'ox', q:'関ヶ原の戦いは1600年に起こった。', a:true, m:'その通りです。'},
+  {type:'ox', q:'ペリーは黒船に乗って浦賀にやってきた。', a:true, m:'その通りです。'},
+  {type:'ox', q:'鎌倉時代は、江戸時代よりあとの時代である。', a:false, m:'鎌倉時代のほうが古い時代です。'},
+  {type:'ox', q:'元寇のとき、元軍は二度とも暴風雨などで引き上げた。', a:true, m:'その通りです。'},
+  {type:'ox', q:'明治維新によって、武士という身分の制度はなくなっていった。', a:true, m:'四民平等の世の中へ変わった。'},
+  ],
+  shiro:[
+  {type:'4', q:'「白鷺城」とも呼ばれる、兵庫県にある世界遺産の城は？', c:['姫路城','大阪城','熊本城','名古屋城'], a:0, m:'白く美しい姿で有名。'},
+  {type:'4', q:'現存する世界最古の木造建築といわれる、奈良の寺は？', c:['法隆寺','東大寺','清水寺','金閣寺'], a:0, m:'聖徳太子ゆかりの寺。'},
+  {type:'4', q:'海の中に大鳥居が立つ、広島県の世界遺産の神社は？', c:['厳島神社','出雲大社','伊勢神宮','日光東照宮'], a:0, m:'宮島にある。'},
+  {type:'4', q:'徳川家康をまつる、栃木県の世界遺産は？', c:['日光東照宮','鶴岡八幡宮','明治神宮','平安神宮'], a:0, m:'「見ざる・言わざる・聞かざる」の彫刻で有名。'},
+  {type:'4', q:'2013年に世界文化遺産に登録された、日本一高い山は？', c:['富士山','立山','槍ヶ岳','阿蘇山'], a:0, m:'標高3776m。'},
+  {type:'4', q:'岐阜県にある、合掌造りの集落で知られる世界遺産は？', c:['白川郷','五箇山','黒部','妻籠'], a:0, m:'手を合わせたような形の屋根。'},
+  {type:'4', q:'平和への願いをこめて世界遺産になった、広島の建物は？', c:['原爆ドーム','通天閣','東京タワー','五重塔'], a:0, m:'核兵器のおそろしさを伝える。'},
+  {type:'4', q:'豊臣秀吉が築いた、大阪のシンボルといえる城は？', c:['大阪城','江戸城','松本城','彦根城'], a:0, m:'「太閤さんの城」とも。'},
+  {type:'4', q:'金閣（鹿苑寺）や銀閣（慈照寺）がある都道府県は？', c:['京都府','奈良県','滋賀県','大阪府'], a:0, m:'多くの寺社が世界遺産になっている。'},
+  {type:'4', q:'鹿児島県にある、屋久杉で有名な世界自然遺産の島は？', c:['屋久島','種子島','佐渡島','淡路島'], a:0, m:'樹齢数千年の杉もある。'},
+  {type:'4', q:'沖縄にあった琉球王国の王の城（世界遺産）は？', c:['首里城','二条城','松山城','高知城'], a:0, m:'朱色が美しい。'},
+  {type:'4', q:'函館にある、星の形をした幕末の城跡は？', c:['五稜郭','松前城','弘前城','会津若松城'], a:0, m:'戊辰戦争の舞台になった。'},
+  {type:'4', q:'「縁結びの神様」で有名な、島根県の神社は？', c:['出雲大社','厳島神社','熱田神宮','春日大社'], a:0, m:'大きなしめ縄で有名。'},
+  {type:'4', q:'天照大神をまつる、三重県の神社は？', c:['伊勢神宮','出雲大社','鹿島神宮','八坂神社'], a:0, m:'「お伊勢さん」と親しまれる。'},
+  {type:'4', q:'現在の皇居がある場所は、もともと何だった？', c:['江戸城','大阪城','名古屋城','二条城'], a:0, m:'徳川将軍の城だった。'},
+  {type:'4', q:'黒い壁から「烏城（からすじょう）」とも呼ばれる、長野県の国宝の城は？', c:['松本城','松江城','犬山城','丸岡城'], a:0, m:'アルプスを背に建つ。'},
+  {type:'4', q:'ヒグマやシマフクロウがすむ、北海道の世界自然遺産は？', c:['知床','大雪山','釧路湿原','十和田湖'], a:0, m:'2005年に登録された。'},
+  {type:'4', q:'奈良の大仏がある寺は？', c:['東大寺','興福寺','薬師寺','唐招提寺'], a:0, m:'大仏は「盧舎那仏（るしゃなぶつ）」。'},
+  {type:'4', q:'京都にある、「清水の舞台」で有名な寺は？', c:['清水寺','銀閣寺','龍安寺','平等院'], a:0, m:'「清水の舞台から飛び降りる」の言葉も。'},
+  {type:'4', q:'平等院鳳凰堂が描かれている硬貨は？', c:['10円玉','1円玉','100円玉','500円玉'], a:0, m:'京都・宇治にある世界遺産。'},
+  {type:'ox', q:'姫路城は「白鷺城」とも呼ばれる。', a:true, m:'白く美しい姿から。'},
+  {type:'ox', q:'法隆寺は東京都にある。', a:false, m:'法隆寺は奈良県にあります。'},
+  {type:'ox', q:'富士山は「世界自然遺産」として登録された。', a:false, m:'富士山は「世界文化遺産」として登録されました。'},
+  {type:'ox', q:'原爆ドームは広島県にある世界遺産である。', a:true, m:'その通りです。'},
+  {type:'ox', q:'厳島神社の大鳥居は海の中に立っている。', a:true, m:'潮が満ちると海に浮かんで見える。'},
+  ],
+  bunka:[
+  {type:'4', q:'1月1日にまつわる、日本のいちばん大きなお祝いは？', c:['お正月','七夕','節分','お盆'], a:0, m:'おせちやお年玉、初詣など。'},
+  {type:'4', q:'2月3日ごろ、「鬼は外、福は内」と豆をまく行事は？', c:['節分','七夕','十五夜','端午の節句'], a:0, m:'季節の変わり目の行事。'},
+  {type:'4', q:'3月3日、女の子の成長を願ってひな人形をかざる行事は？', c:['ひな祭り','端午の節句','七五三','お彼岸'], a:0, m:'「桃の節句」ともいう。'},
+  {type:'4', q:'5月5日、こいのぼりをあげて男の子の成長を願う日は？', c:['端午の節句','ひな祭り','七夕','成人の日'], a:0, m:'「こどもの日」でもある。'},
+  {type:'4', q:'7月7日、たんざくに願いごとを書いて笹にかざる行事は？', c:['七夕','節分','十五夜','お盆'], a:0, m:'おりひめとひこぼしの伝説。'},
+  {type:'4', q:'秋の満月を楽しみ、だんごをそなえる行事は？', c:['十五夜（お月見）','七夕','節分','初詣'], a:0, m:'すすきもかざる。'},
+  {type:'4', q:'11月15日ごろ、3歳・5歳・7歳の成長を祝う行事は？', c:['七五三','成人式','節分','お盆'], a:0, m:'神社にお参りする。'},
+  {type:'4', q:'大みそかの夜、お寺でつく鐘を何という？', c:['除夜の鐘','初鐘','合図の鐘','お昼の鐘'], a:0, m:'108回つくことが多い。'},
+  {type:'4', q:'お茶をたてて客をもてなす、日本の伝統的な作法は？', c:['茶道','華道','書道','武道'], a:0, m:'「わび・さび」を大切にする。'},
+  {type:'4', q:'花を美しくいける、日本の伝統文化は？', c:['華道（生け花）','茶道','書道','香道'], a:0, m:'四季の花を使う。'},
+  {type:'4', q:'日本の「国技」とされ、まわしをつけて土俵で戦う競技は？', c:['相撲','柔道','剣道','空手'], a:0, m:'最高位は横綱。'},
+  {type:'4', q:'顔を白くぬり、はでな化粧と動きで演じる伝統演劇は？', c:['歌舞伎','能','落語','文楽'], a:0, m:'「見得を切る」が有名。'},
+  {type:'4', q:'一人でおもしろい話を演じ、最後に「オチ」がつく話芸は？', c:['落語','漫才','歌舞伎','狂言'], a:0, m:'座ぶとんにすわって話す。'},
+  {type:'4', q:'2013年に世界の無形文化遺産になった、日本の食文化は？', c:['和食','ラーメン','カレー','すきやき'], a:0, m:'だしや季節感を大切にする。'},
+  {type:'4', q:'夏に着ることが多い、すずしい和服は？', c:['浴衣','留袖','はかま','十二単'], a:0, m:'花火大会などで着る。'},
+  {type:'4', q:'お正月に、門の前にかざる松や竹のかざりは？', c:['門松','しめ縄','こいのぼり','たんざく'], a:0, m:'年神様を迎えるため。'},
+  {type:'4', q:'こどもの日に食べることが多い、葉でつつんだおもちは？', c:['かしわもち','おはぎ','だんご','せんべい'], a:0, m:'ちまきもよく食べる。'},
+  {type:'4', q:'五・七・五で季語を入れてよむ、日本の短い詩は？', c:['俳句','短歌','川柳','百人一首'], a:0, m:'松尾芭蕉が有名。'},
+  {type:'4', q:'お正月に、子どもがもらえるお金は？', c:['お年玉','おこづかい','ごほうび','お見舞い'], a:0, m:'ぽち袋に入れて渡す。'},
+  {type:'4', q:'きものを着るとき、腰にまく布を何という？', c:['帯','えり','たもと','すそ'], a:0, m:'後ろで結ぶ。'},
+  {type:'4', q:'七夕で、おりひめ・ひこぼしが会えるという空の川は？', c:['天の川','流れ星','北極星','虹'], a:0, m:'夏によく見える。'},
+  {type:'ox', q:'ひな祭りは、男の子の成長を願う行事である。', a:false, m:'女の子の成長を願う行事です。'},
+  {type:'ox', q:'相撲の最高位は「横綱」である。', a:true, m:'その通りです。'},
+  {type:'ox', q:'和食は、世界の無形文化遺産に登録されている。', a:true, m:'2013年に登録されました。'},
+  {type:'ox', q:'節分には「鬼は外、福は内」と言って豆をまく。', a:true, m:'その通りです。'},
+  {type:'ox', q:'こどもの日は5月5日である。', a:true, m:'端午の節句でもある。'},
+  ],
+  shinwa:[
+  {type:'4', q:'きびだんごを持ち、犬・猿・きじを連れて鬼退治に行く昔話は？', c:['桃太郎','浦島太郎','一寸法師','金太郎'], a:0, m:'桃から生まれた男の子。'},
+  {type:'4', q:'助けた亀に連れられ、竜宮城へ行く昔話の主人公は？', c:['浦島太郎','桃太郎','金太郎','一寸法師'], a:0, m:'玉手箱を開けるとおじいさんに。'},
+  {type:'4', q:'竹の中から生まれ、最後は月へ帰っていくお姫様の話は？', c:['かぐや姫（竹取物語）','つるの恩返し','花咲かじいさん','さるかに合戦'], a:0, m:'日本最古の物語ともいわれる。'},
+  {type:'4', q:'体が小さく、お椀の舟と針の刀で活躍する昔話の主人公は？', c:['一寸法師','桃太郎','金太郎','牛若丸'], a:0, m:'打ち出の小づちで大きくなる。'},
+  {type:'4', q:'助けたつるが、おんがえしに布をおってくれる昔話は？', c:['つるの恩返し','かちかち山','舌切りすずめ','こぶとりじいさん'], a:0, m:'「のぞかないで」が約束。'},
+  {type:'4', q:'かれ木に灰をまくと花がさく、正直なおじいさんの昔話は？', c:['花咲かじいさん','さるかに合戦','桃太郎','かぐや姫'], a:0, m:'「ここほれワンワン」も有名。'},
+  {type:'4', q:'太陽の神とされ、天岩戸（あまのいわと）にかくれた神は？', c:['天照大神','スサノオ','大国主','ヤマトタケル'], a:0, m:'日本神話の中心の神。'},
+  {type:'4', q:'ヤマタノオロチという大蛇を退治した神は？', c:['スサノオ','天照大神','大国主','因幡の白うさぎ'], a:0, m:'天照大神の弟。'},
+  {type:'4', q:'「因幡の白うさぎ」を助けた、縁結びの神様は？', c:['大国主','スサノオ','ヤマトタケル','桃太郎'], a:0, m:'出雲大社にまつられる。'},
+  {type:'4', q:'十二支のいちばん最初の動物は？', c:['ねずみ（子）','うし（丑）','とら（寅）','いぬ（戌）'], a:0, m:'子・丑・寅…と続く。'},
+  {type:'4', q:'「さるかに合戦」で、さるが投げてかにをこらしめた木の実は？', c:['かき','くり','もも','みかん'], a:0, m:'かにはかきの種を育てていた。'},
+  {type:'4', q:'おむすびを追って穴に落ち、ねずみの世界へ行く昔話は？', c:['おむすびころりん','かちかち山','舌切りすずめ','ぶんぶく茶釜'], a:0, m:'正直じいさんは宝物をもらう。'},
+  {type:'4', q:'茶釜がたぬきに変わるという昔話は？', c:['ぶんぶく茶釜','かちかち山','つるの恩返し','桃太郎'], a:0, m:'お寺に伝わる話。'},
+  {type:'4', q:'たぬきをこらしめるため、うさぎが活躍する昔話は？', c:['かちかち山','さるかに合戦','花咲かじいさん','一寸法師'], a:0, m:'背中の火が「かちかち」鳴る。'},
+  {type:'4', q:'すずめのお宿で、よくばりばあさんが大きなつづらを選ぶ昔話は？', c:['舌切りすずめ','つるの恩返し','かぐや姫','金太郎'], a:0, m:'小さいつづらに宝物が入っていた。'},
+  {type:'4', q:'まさかりをかついで、くまにまたがる元気な男の子の昔話は？', c:['金太郎','桃太郎','一寸法師','牛若丸'], a:0, m:'足柄山で育った。'},
+  {type:'4', q:'日本神話で、神々が住むとされる天上の世界を何という？', c:['高天原（たかまがはら）','黄泉の国','竜宮城','鬼ヶ島'], a:0, m:'天照大神がおさめた。'},
+  {type:'4', q:'「桃太郎」が鬼を退治しに行った場所は？', c:['鬼ヶ島','竜宮城','月','高天原'], a:0, m:'船で海をわたる。'},
+  {type:'ox', q:'桃太郎は、きびだんごを持って鬼退治に出かけた。', a:true, m:'仲間に分けてあげた。'},
+  {type:'ox', q:'浦島太郎は、玉手箱を開けて若者になった。', a:false, m:'おじいさんになってしまいました。'},
+  {type:'ox', q:'かぐや姫は、最後に海の底へ帰っていった。', a:false, m:'月へ帰っていきました。'},
+  {type:'ox', q:'天照大神は、太陽の神とされている。', a:true, m:'その通りです。'},
+  {type:'ox', q:'十二支の最初の動物は「うし」である。', a:false, m:'最初は「ねずみ（子）」です。'},
+  {type:'ox', q:'「つるの恩返し」で、つるは布をおって恩を返した。', a:true, m:'自分の羽をぬいておった。'},
+  ],
+  meisho:[
+  {type:'4', q:'日本でいちばん高い山は？', c:['富士山','北岳','槍ヶ岳','御嶽山'], a:0, m:'標高3776m。山梨県と静岡県にまたがる。'},
+  {type:'4', q:'日本でいちばん長い川は？', c:['信濃川','利根川','石狩川','北上川'], a:0, m:'長野県から新潟県へ流れる。'},
+  {type:'4', q:'日本でいちばん大きい湖は？', c:['琵琶湖','霞ヶ浦','サロマ湖','浜名湖'], a:0, m:'滋賀県にある。'},
+  {type:'4', q:'日本でいちばん大きい島（本土）は？', c:['本州','北海道','九州','四国'], a:0, m:'いちばん広い。'},
+  {type:'4', q:'日本の都道府県の数は？', c:['47','43','50','38'], a:0, m:'1都1道2府43県。'},
+  {type:'4', q:'日本の首都は？', c:['東京','大阪','京都','横浜'], a:0, m:'政治の中心地。'},
+  {type:'4', q:'「雪まつり」で有名な、北海道の都市は？', c:['札幌','函館','旭川','小樽'], a:0, m:'大きな雪像が並ぶ。'},
+  {type:'4', q:'大きなねぶた（人形の山車）が練り歩く、青森の祭りは？', c:['ねぶた祭','竿燈まつり','七夕まつり','よさこい'], a:0, m:'「ラッセラー」のかけ声。'},
+  {type:'4', q:'7月、たくさんの山ぼこが巡行する京都の祭りは？', c:['祇園祭','天神祭','阿波おどり','だんじり祭'], a:0, m:'八坂神社のお祭り。'},
+  {type:'4', q:'「えらいやっちゃ」のかけ声でおどる、徳島の夏祭りは？', c:['阿波おどり','よさこい','ねぶた祭','七夕まつり'], a:0, m:'「おどるあほうに見るあほう」。'},
+  {type:'4', q:'仙台で行われる、大きなかざりがゆれる夏の祭りは？', c:['七夕まつり','祇園祭','ねぶた祭','天神祭'], a:0, m:'豪華な紙のかざりが名物。'},
+  {type:'4', q:'日本三名園のひとつ、石川県金沢市にある庭園は？', c:['兼六園','後楽園','偕楽園','六義園'], a:0, m:'雪づりで有名。'},
+  {type:'4', q:'たくさんの鹿がいることで有名な、奈良の公園は？', c:['奈良公園','上野公園','日比谷公園','代々木公園'], a:0, m:'鹿せんべいをあげられる。'},
+  {type:'4', q:'うどんが名物で「うどん県」とも呼ばれる県は？', c:['香川県','愛媛県','徳島県','高知県'], a:0, m:'讃岐うどんが有名。'},
+  {type:'4', q:'りんごの生産量が日本一の県は？', c:['青森県','長野県','岩手県','山形県'], a:0, m:'寒い気候が合う。'},
+  {type:'4', q:'「シーサー」や「首里城」で知られる、日本最南の県は？', c:['沖縄県','鹿児島県','長崎県','宮崎県'], a:0, m:'あたたかい気候。'},
+  {type:'4', q:'雪が多く、世界遺産の合掌造り集落（白川郷）がある県は？', c:['岐阜県','富山県','新潟県','長野県'], a:0, m:'豪雪地帯。'},
+  {type:'4', q:'日本でいちばん北にある都道府県は？', c:['北海道','青森県','秋田県','岩手県'], a:0, m:'いちばん広い。'},
+  {type:'4', q:'江戸時代に「天下の台所」と呼ばれ、商人の町として栄えた都市は？', c:['大阪','江戸','京都','博多'], a:0, m:'商業の中心地だった。'},
+  {type:'4', q:'富士山がまたがる2つの県は、静岡県とどこ？', c:['山梨県','神奈川県','長野県','愛知県'], a:0, m:'富士五湖は山梨県側にある。'},
+  {type:'ox', q:'日本でいちばん高い山は富士山である。', a:true, m:'標高3776m。'},
+  {type:'ox', q:'日本でいちばん大きい湖は浜名湖である。', a:false, m:'いちばん大きいのは琵琶湖です。'},
+  {type:'ox', q:'日本の都道府県は全部で47ある。', a:true, m:'その通りです。'},
+  {type:'ox', q:'ねぶた祭は青森県の有名な夏祭りである。', a:true, m:'その通りです。'},
+  {type:'ox', q:'沖縄県は、日本の中で北のはしにある。', a:false, m:'南のほうにあります。最北は北海道です。'},
+  ],
+};
+let currentGenre=null,questions=[],qIndex=0,score=0,correctCount=0,wrongCount=0;
+let timeLeft=120,timer=null,answered=false,wrongAnswers=[],playerName='';
+let currentRankingGenre=null;
+let curChoices=[],curCorrectIdx=-1;
+let typingTimeout=null,displayedText='',answerPhase=false;
+const TYPING_SPEED=90; // 問題文の表示スピード（1文字あたりミリ秒。大きいほど遅い）
+function escapeHtml(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function stripHtml(s){return String(s).replace(/<[^>]*>/g,'');}
+function shuffle(arr){const a=[...arr];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function showScreen(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');window.scrollTo(0,0);}
+let toastTimer=null;
+function showToast(msg,type='',d=4500){const t=document.getElementById('toast');t.textContent=msg;t.className='show'+(type?' '+type:'');clearTimeout(toastTimer);toastTimer=setTimeout(()=>hideToast(),d);}
+function hideToast(){clearTimeout(toastTimer);const t=document.getElementById('toast');if(t)t.className='';}
+function buildGenreCards(){
+  const grid=document.getElementById('genres-grid');
+  grid.innerHTML=GENRES.map(g=>`<div class="genre-card" onclick="selectGenre('${g.id}')"><div class="genre-accent" style="background:${g.color};"></div><span class="genre-icon">${g.icon}</span><div class="genre-name">${g.name}</div><div class="genre-desc">${g.desc}</div><div class="genre-count">全${DB[g.id].length}問 ／ 10問ランダム出題</div><span class="genre-start">▶ START</span></div>`).join('');
+}
+function selectGenre(id){
+  currentGenre=GENRES.find(g=>g.id===id);
+  document.getElementById('intro-icon').textContent=currentGenre.icon;
+  document.getElementById('intro-name').textContent=currentGenre.name;
+  document.getElementById('intro-desc').textContent=currentGenre.desc;
+  if(window.TomyStamp){const saved=TomyStamp.getPlayer();const inp=document.getElementById('name-input');if(saved&&!inp.value)inp.value=saved;}
+  showScreen('screen-intro');
+}
+function startGame(){
+  playerName=document.getElementById('name-input').value.trim()||'ゲスト';
+  if(window.TomyStamp&&playerName!=='ゲスト')TomyStamp.setPlayer(playerName);
+  questions=shuffle(DB[currentGenre.id]).slice(0,10);
+  qIndex=0;score=0;correctCount=0;wrongCount=0;wrongAnswers=[];
+  showScreen('screen-quiz');showQuestion();startTimer();
+}
+function retryGame(){showScreen('screen-intro');}
+function startTimer(){clearInterval(timer);timeLeft=120;updateTimerDisplay();timer=setInterval(()=>{timeLeft--;updateTimerDisplay();if(timeLeft<=0){clearInterval(timer);endGame();}},1000);}
+function updateTimerDisplay(){const el=document.getElementById('quiz-timer');el.textContent=timeLeft;el.className='quiz-timer'+(timeLeft<=10?' danger':'');}
+function showQuestion(){
+  const q=questions[qIndex];answered=false;answerPhase=false;
+  document.getElementById('quiz-qnum').textContent=`Q${qIndex+1} / 10`;
+  document.getElementById('quiz-progress-fill').style.width=`${(qIndex/10)*100}%`;
+  document.getElementById('quiz-score').textContent=`${score} 点`;
+  document.getElementById('result-overlay').classList.remove('show');
+
+  const badge=document.getElementById('quiz-type-badge');
+  if(q.type==='4'){badge.textContent='4択';badge.className='quiz-type-badge type-4';}
+  else{badge.textContent='○×';badge.className='quiz-type-badge type-ox';}
+
+  // 選択肢は隠す・バザーボタンを出す
+  const choices=document.getElementById('quiz-choices');
+  choices.style.display='none';choices.innerHTML='';choices.className=(q.type==='4'?'choices':'');
+  const buzzer=document.getElementById('buzzer-btn');
+  buzzer.style.display='block';buzzer.disabled=false;
+
+  // 問題文タイプライター開始
+  const el=document.getElementById('quiz-q');
+  el.style.transition='none';el.style.visibility='visible';el.style.opacity='1';
+  typeQuestion(q.q,el);
+}
+
+// タイプライター表示（完了時にスタイル付きHTMLで再表示）
+function typeQuestion(html,el){
+  if(typingTimeout)clearTimeout(typingTimeout);
+  const plain=stripHtml(html);
+  displayedText='';let i=0;
+  (function next(){
+    if(i<plain.length){
+      displayedText+=plain[i++];
+      el.innerHTML=escapeHtml(displayedText)+'<span class="cursor-blink"></span>';
+      typingTimeout=setTimeout(next,TYPING_SPEED);
+    }else{
+      el.innerHTML=html;
+    }
+  })();
+}
+
+// 「回答する！」押下 → タイプライター停止 → 問題文フェードアウト → 選択肢表示
+function onBuzzer(){
+  if(answerPhase)return;answerPhase=true;
+  if(typingTimeout)clearTimeout(typingTimeout);
+  const el=document.getElementById('quiz-q');
+  el.style.transition='opacity 0.2s ease';
+  el.style.opacity='0';el.style.visibility='hidden';
+  document.getElementById('buzzer-btn').style.display='none';
+  renderChoices(questions[qIndex]);
+}
+
+function renderChoices(q){
+  const wrap=document.getElementById('quiz-choices');
+  wrap.style.display='block';
+  if(q.type==='4'){
+    wrap.className='choices';
+    // 表示時に選択肢の順番をシャッフルして正解位置の偏りを防ぐ
+    const pairs=q.c.map((text,i)=>({text,correct:i===q.a}));
+    curChoices=shuffle(pairs);
+    curCorrectIdx=curChoices.findIndex(p=>p.correct);
+    const lb=['A','B','C','D'];
+    wrap.innerHTML=curChoices.map((p,i)=>`<button class="choice-btn" onclick="answer4(${i})"><span class="choice-label">${lb[i]}</span>${escapeHtml(p.text)}</button>`).join('');
+  }else{
+    wrap.className='';
+    wrap.innerHTML=`<div class="ox-choices"><button class="ox-btn" onclick="answerOX(true)">⭕<span>正しい</span></button><button class="ox-btn" onclick="answerOX(false)">❌<span>まちがい</span></button></div>`;
+  }
+}
+
+// 選択後：問題文を全文（スタイル付きHTML）でフェードインして再表示
+function revealQuestion(html){
+  const el=document.getElementById('quiz-q');
+  el.innerHTML=html;
+  el.style.transition='opacity 0.3s ease';
+  el.style.visibility='visible';
+  el.style.opacity='1';
+}
+function answer4(idx){
+  if(answered)return;answered=true;
+  const q=questions[qIndex];
+  const btns=document.querySelectorAll('.choice-btn');
+  btns.forEach(b=>b.disabled=true);
+  btns[curCorrectIdx].classList.add('correct');
+  if(idx!==curCorrectIdx)btns[idx].classList.add('wrong');
+  revealQuestion(q.q);
+  const isCorrect=idx===curCorrectIdx;
+  const correctAns=curChoices[curCorrectIdx].text;
+  const userAns=curChoices[idx].text;
+  setTimeout(()=>showResult(isCorrect,correctAns,userAns,q.q,q.m),600);
+}
+function answerOX(val){
+  if(answered)return;answered=true;
+  const q=questions[qIndex];
+  const btns=document.querySelectorAll('.ox-btn');
+  btns.forEach(b=>b.disabled=true);
+  btns[q.a?0:1].classList.add('correct');
+  if(val!==q.a)btns[val?0:1].classList.add('wrong');
+  revealQuestion(q.q);
+  const userAns=val?'○（正しい）':'×（まちがい）';
+  setTimeout(()=>showResult(val===q.a,q.a?'○（正しい）':'×（まちがい）',userAns,q.q,q.m),600);
+}
+function showResult(isCorrect,correctAns,userAns,qHtml,mean){
+  if(isCorrect){score+=10;correctCount++;timeLeft=Math.min(timeLeft+5,999);}
+  else{wrongCount++;timeLeft=Math.max(timeLeft-5,0);wrongAnswers.push({q:qHtml,a:correctAns,m:mean||''});}
+  updateTimerDisplay();
+  document.getElementById('quiz-score').textContent=`${score} 点`;
+  const box=document.getElementById('result-box-ov');
+  box.className='result-box-ov '+(isCorrect?'correct':'incorrect');
+  document.getElementById('result-emoji').textContent=isCorrect?'✅':'❌';
+  document.getElementById('result-label-ov').textContent=isCorrect?'正解！':'ざんねん…';
+  document.getElementById('result-ov-q').innerHTML=qHtml;
+  document.getElementById('result-ov-a').textContent=correctAns;
+  if(isCorrect){
+    document.getElementById('result-ov-fb').innerHTML='<span class="hl plus">+10点</span>　<span class="hl plus">のこり時間 +5秒！</span>';
+    showToast('✅ 正解！ +10点 +5秒','ok');
+  }else{
+    document.getElementById('result-ov-fb').innerHTML=`あなたの答え：「${escapeHtml(userAns)}」　<span class="hl minus">（−5秒）</span>`;
+    showToast('❌ ざんねん −5秒','ng');
+  }
+  document.getElementById('result-ov-mean').innerHTML=mean?('💡 '+escapeHtml(mean)):'';
+  document.getElementById('result-overlay').classList.add('show');
+}
+function nextQuestion(){document.getElementById('result-overlay').classList.remove('show');hideToast();qIndex++;if(qIndex>=10){clearInterval(timer);endGame();}else{showQuestion();}}
+function endGame(){
+  clearInterval(timer);
+  if(typingTimeout)clearTimeout(typingTimeout);
+  document.getElementById('result-overlay').classList.remove('show');
+  const bonus=Math.max(timeLeft,0),total=score+bonus;
+  const medal=correctCount>=9?'🥇':correctCount>=7?'🥈':correctCount>=5?'🥉':'🌱';
+  document.getElementById('result-genre').textContent=currentGenre.icon+' '+currentGenre.name;
+  document.getElementById('result-score').textContent=total;
+  document.getElementById('result-medal').textContent=medal;
+  document.getElementById('result-correct').textContent=correctCount;
+  document.getElementById('result-wrong').textContent=wrongCount;
+  document.getElementById('result-bonus').textContent='+'+bonus;
+  const ws=document.getElementById('wrong-section');
+  if(wrongAnswers.length>0){ws.innerHTML=`<div class="wrong-label">📝 まちがえた問題（${wrongAnswers.length}問）— ここでしっかり覚えよう！</div>`+wrongAnswers.map((w,i)=>`<div class="wrong-item"><div class="wrong-item-num">問${i+1}</div><div class="wrong-item-q">${w.q}</div><div class="wrong-item-ans"><span class="wrong-item-ans-label">正解</span><span class="wrong-item-ans-text">${w.a}</span></div>${w.m?`<div class="wrong-item-mean">💡 ${w.m}</div>`:''}</div>`).join('');}
+  else{ws.innerHTML='<div style="text-align:center;padding:24px;font-family:\'Zen Maru Gothic\',sans-serif;font-weight:900;font-size:15px;color:var(--green);">🎉 全問正解！おみごと！</div>';}
+  saveRanking(currentGenre.id,playerName,total,correctCount);
+  if(window.TomyStamp&&playerName!=='ゲスト'){TomyStamp.send('jp-history-culture-quiz',currentGenre.name,correctCount).then(r=>{if(r.ok)showToast('⭐ スタンプ獲得！ランキングに反映されます');});}
+  showScreen('screen-result');
+}
+const LS_KEY='jp_history_culture_quiz_ranking';
+function saveRanking(gId,name,sc,correct){const data=JSON.parse(localStorage.getItem(LS_KEY)||'{}');if(!data[gId])data[gId]=[];data[gId].push({name,score:sc,correct,date:new Date().toLocaleDateString('ja-JP')});data[gId].sort((a,b)=>b.score-a.score);data[gId]=data[gId].slice(0,20);localStorage.setItem(LS_KEY,JSON.stringify(data));}
+function showRanking(){const tabs=document.getElementById('ranking-tabs');tabs.innerHTML=GENRES.map(g=>`<button class="ranking-tab" onclick="switchRankingTab('${g.id}',this)">${g.icon} ${g.name}</button>`).join('');showScreen('screen-ranking');switchRankingTab(GENRES[0].id,tabs.querySelector('.ranking-tab'));}
+function switchRankingTab(id,btn){document.querySelectorAll('.ranking-tab').forEach(t=>t.classList.remove('active'));btn.classList.add('active');currentRankingGenre=id;renderRanking(id);}
+function renderRanking(id){const data=JSON.parse(localStorage.getItem(LS_KEY)||'{}');const rows=data[id]||[];const list=document.getElementById('ranking-list');if(!rows.length){list.innerHTML='<div class="ranking-empty">まだ記録がありません。さいしょの記録をつくろう！</div>';return;}list.innerHTML=rows.map((r,i)=>{const pos=i+1,pc=pos===1?'gold':pos===2?'silver':pos===3?'bronze':'';const rc=pos===1?'top1':pos===2?'top2':pos===3?'top3':'';return `<div class="ranking-row ${rc}"><span class="ranking-pos ${pc}">${pos}</span><span class="ranking-name">${escapeHtml(r.name)}</span><span style="font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--text3);">${r.correct}/10</span><span class="ranking-score">${r.score}</span><span class="ranking-date">${r.date}</span></div>`;}).join('');}
+function deleteRanking(){if(!currentRankingGenre)return;if(!confirm(`「${GENRES.find(g=>g.id===currentRankingGenre)?.name}」の記録を消しますか？`))return;const data=JSON.parse(localStorage.getItem(LS_KEY)||'{}');delete data[currentRankingGenre];localStorage.setItem(LS_KEY,JSON.stringify(data));renderRanking(currentRankingGenre);}
+// 画面サイズに応じた動的リサイズ（モバイルのアドレスバー対策で実際の表示高さを反映）
+function applyResize(){document.documentElement.style.setProperty('--app-vh',(window.innerHeight*0.01)+'px');}
+window.addEventListener('resize',applyResize);
+window.addEventListener('orientationchange',applyResize);
+applyResize();
+buildGenreCards();
+</script>
+</body>
+</html>
